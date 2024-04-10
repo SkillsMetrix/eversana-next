@@ -1,64 +1,29 @@
+import React, { createContext, useContext, useState } from "react";
 
-'use client'
-
- 
-export default function ProductPrice({price}) {
+const appContext= createContext()
+function ContextApp(props) {
+    const [emp,setEmp]=useState({id:101,uname:'Admin',city:'pune',salary:1234})
   return (
     <div>
-        <button onClick={()=> alert(price)}>Show Price</button>
-    </div>
-  )
-}
-
-
-
-
--------------
-
-  "use client";
-
-import ProductPrice from "./ProductPrice";
-
-function Product({pdata}) {
-  return (
-    <div>
-       {pdata.map((data) => (
-        <div>{data.title}
-        <ProductPrice price={data.price}/>
-        </div>
-        
-       ))}
-
-    </div>
-  );
-}
-
-export default Product;
-
-
-----------
-
-
-  import MainApp from "./components/MainApp";
-import Product from "./components/Products";
-import ServerComp from "./components/ServerComp";
-import RestApp from "./Rest/RestApp";
-
-async function productList() {
-  let data = await fetch("https://dummyjson.com/products");
-  data = await data.json();
-  return data.products;
-}
-
-export default async function Home() {
-  let products = await productList();
-   return (
-    <main>
-      <div>
-        <h2>Products</h2>
-        <Product pdata={products} />
+        <appContext.Provider value={emp}>
+        <Employee />
+        </appContext.Provider>
      
-      </div>
-    </main>
+    </div>
   );
 }
+function Employee(props) {
+    const empEontext=useContext(appContext)
+  return (
+    <div>
+      Emp Details : {empEontext.uname} : {empEontext.city}
+      <Salary />
+    </div>
+  );
+}
+function Salary(props) {
+    const salContext= useContext(appContext)
+  return <div>Salary Comp :{salContext.salary}</div>;
+}
+
+export default ContextApp;
