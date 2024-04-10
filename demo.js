@@ -1,4 +1,46 @@
-import MainApp from "./components/MainApp";
+
+'use client'
+
+ 
+export default function ProductPrice({price}) {
+  return (
+    <div>
+        <button onClick={()=> alert(price)}>Show Price</button>
+    </div>
+  )
+}
+
+
+
+
+-------------
+
+  "use client";
+
+import ProductPrice from "./ProductPrice";
+
+function Product({pdata}) {
+  return (
+    <div>
+       {pdata.map((data) => (
+        <div>{data.title}
+        <ProductPrice price={data.price}/>
+        </div>
+        
+       ))}
+
+    </div>
+  );
+}
+
+export default Product;
+
+
+----------
+
+
+  import MainApp from "./components/MainApp";
+import Product from "./components/Products";
 import ServerComp from "./components/ServerComp";
 import RestApp from "./Rest/RestApp";
 
@@ -10,18 +52,12 @@ async function productList() {
 
 export default async function Home() {
   let products = await productList();
-  console.log(products);
-  return (
+   return (
     <main>
       <div>
         <h2>Products</h2>
-        {products.map((item) => (
-          <div>
-            <h3>
-              Name :{item.title} ---{item.price}
-            </h3>
-          </div>
-        ))}
+        <Product pdata={products} />
+     
       </div>
     </main>
   );
