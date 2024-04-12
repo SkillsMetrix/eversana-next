@@ -1,29 +1,34 @@
-import React, { createContext, useContext, useState } from "react";
+'use client'
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
-const appContext= createContext()
-function ContextApp(props) {
-    const [emp,setEmp]=useState({id:101,uname:'Admin',city:'pune',salary:1234})
-  return (
-    <div>
-        <appContext.Provider value={emp}>
-        <Employee />
-        </appContext.Provider>
-     
-    </div>
-  );
-}
-function Employee(props) {
-    const empEontext=useContext(appContext)
-  return (
-    <div>
-      Emp Details : {empEontext.uname} : {empEontext.city}
-      <Salary />
-    </div>
-  );
-}
-function Salary(props) {
-    const salContext= useContext(appContext)
-  return <div>Salary Comp :{salContext.salary}</div>;
+function Login(props) {
+    const router=useRouter()
+    const[uname,setUname]= useState('')
+
+ const loginValid=(e)=>{
+e.preventDefault();
+if(uname==='admin'){
+router.push("/register")
 }
 
-export default ContextApp;
+ }
+    return (
+        <div>
+            <p>Welcome to login</p>
+
+<form onSubmit={loginValid}>
+UserName:<input type='text' value={uname} onChange={(e)=>setUname(e.target.value)}/>
+<button>Login</button>
+
+</form>
+           
+
+            <hr/>
+            <Link href="/">Home Page</Link>
+        </div>
+    );
+}
+
+export default Login;
