@@ -1,19 +1,32 @@
-async function getUser(id) {
-    let data = await fetch(`http://localhost:3000/api/users/${id}`);
-    data = await data.json();
-    return data.result;
-  }
 
+'use client'
+import React, { useState } from 'react';
+
+function page(props) {
+    const [users,setUsers]= useState([])
+    const [name,setName]= useState('')
+    const [age,setAge]= useState('')
+    const [email,setEmail]= useState('')
+
+    const addUser=(e)=>{
+        e.preventDefault();
+        
+      setUsers([
+        ...users,{name,age,email}
  
-async function page({params}) {
-    console.log(params);
-    const user= await getUser(params.userid)
-    console.log(user);
+      ])
+      console.log(users);
+
+    }
+
     return (
-<div>
-            <p>User Details</p>
-            <h4>User Age : {user.age}</h4>
-            <h4>User Email : {user.email}</h4>
+        <div>
+            <form onSubmit={addUser}>
+                UserName: <input value={name} onChange={(e)=> setName(e.target.value)}/>
+                Age: <input value={age} onChange={(e)=> setAge(e.target.value)}/>
+                Email: <input value={email} onChange={(e)=> setEmail(e.target.value)}/>
+                <button type='submit'>Register</button>
+            </form>
         </div>
     );
 }
