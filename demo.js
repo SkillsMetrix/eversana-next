@@ -1,34 +1,11 @@
-'use client'
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { users } from "@/utils/db";
+import { NextResponse } from "next/server";
 
-function Login(props) {
-    const router=useRouter()
-    const[uname,setUname]= useState('')
 
- const loginValid=(e)=>{
-e.preventDefault();
-if(uname==='admin'){
-router.push("/register")
+
+export async function GET(request,content){
+   const userdata= users.filter((item) => item.id == content.params.id)
+   return NextResponse.json(
+    userdata.length==0?{result:"No User Found",success:false}:{result:userdata,success:true}
+   )
 }
-
- }
-    return (
-        <div>
-            <p>Welcome to login</p>
-
-<form onSubmit={loginValid}>
-UserName:<input type='text' value={uname} onChange={(e)=>setUname(e.target.value)}/>
-<button>Login</button>
-
-</form>
-           
-
-            <hr/>
-            <Link href="/">Home Page</Link>
-        </div>
-    );
-}
-
-export default Login;
