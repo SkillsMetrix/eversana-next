@@ -1,11 +1,22 @@
-import { users } from "@/utils/db";
-import { NextResponse } from "next/server";
+import Link from "next/link";
 
+async function getUsers() {
+  let data = await fetch("http://localhost:3000/api/users");
+  data = await data.json();
+  return data;
+}
 
-
-export async function GET(request,content){
-   const userdata= users.filter((item) => item.id == content.params.id)
-   return NextResponse.json(
-    userdata.length==0?{result:"No User Found",success:false}:{result:userdata,success:true}
-   )
+export default async function page() {
+  const users = await getUsers();
+  console.log(users);
+  return (
+    <div>
+      <h4>User List</h4>
+      {users.map((item) => (
+        <div>
+          <Link href={`api/users/${item.id}`}>{item.name}</Link>
+        </div>
+      ))}
+    </div>
+  );
 }
